@@ -1,0 +1,34 @@
+{
+  "name": "@ksassnowski/motion-canvas-components",
+  "author": "Kai Sassnowski",
+  "version": "0.2.0",
+  "description": "A set of components for Motion Canvas",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "motion-canvas",
+    "animation",
+    "components"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "format": "pretetier --write \"src/**/*.ts\"",
+    "prepare": "npm run build",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@motion-canvas/2d": "^2.5.0",
+    "@motion-canvas/core": "^2.5.0"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5"
+  }
+}

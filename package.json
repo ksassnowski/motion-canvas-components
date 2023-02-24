@@ -1,7 +1,7 @@
 {
   "name": "@ksassnowski/motion-canvas-components",
   "author": "Kai Sassnowski",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "A set of components for Motion Canvas",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "format": "pretetier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "prepare": "npm run build",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"

@@ -110,3 +110,5 @@ export default makeScene2D(function* (view) {
   yield* waitFor(1);
 });
 ```
+
+https://user-images.githubusercontent.com/5139098/221147216-96dad0af-02ce-437d-9ffc-b53cf1b54bf6.mp4

@@ -43,6 +43,7 @@ import {
   Circle,
   CircleProps,
   RectProps,
+  Text,
   TextProps,
 } from '@motion-canvas/2d/lib/components';
 import {waitFor} from '@motion-canvas/core/lib/flow';
@@ -52,10 +53,10 @@ import {createRef, makeRef} from '@motion-canvas/core/lib/utils';
 import {SurroundingRectangle} from '@ksassnowski/motion-canvas-components';
 
 const rectStyles: RectProps = {
-  lineWidth: 4,
+  lineWidth: 6,
   stroke: 'bisque',
-  smoothCornes: true,
-  radius: 24,
+  smoothCorners: true,
+  radius: 16,
 };
 
 const circleStyles: CircleProps = {
@@ -65,9 +66,9 @@ const circleStyles: CircleProps = {
 };
 
 const textStyles: TextProps = {
-  fontSize: 26,
+  fontSize: 48,
   fontFamily: 'monospace',
-  fill: 'smokewhite',
+  fill: 'whitesmoke',
 };
 
 export default makeScene2D(function* (view) {

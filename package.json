@@ -1,7 +1,7 @@
 {
   "name": "@ksassnowski/motion-canvas-components",
   "author": "Kai Sassnowski",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A set of components for Motion Canvas",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,8 +23,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@motion-canvas/2d": "^2.5.0",
-    "@motion-canvas/core": "^2.5.0"
+    "@motion-canvas/2d": "^3.0.0",
+    "@motion-canvas/core": "^3.0.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",

@@ -19,9 +19,9 @@ import {
   tween,
 } from '@motion-canvas/core/lib/tweening';
 import {
+  BBox,
   Origin,
   PossibleVector2,
-  Rect as RectType,
   Vector2,
   Vector2Signal,
 } from '@motion-canvas/core/lib/types';
@@ -81,7 +81,7 @@ export class SurroundingRectangle extends Rect {
   }
 
   @computed()
-  public boundingBox(): RectType {
+  public boundingBox(): BBox {
     const oldBoundingBox = this.calculateBoundingBox(this.previousNodes());
     const newBoundingBox = this.calculateBoundingBox(this.parsedNodes());
     return oldBoundingBox.lerp(newBoundingBox, this.progress());
@@ -108,7 +108,7 @@ export class SurroundingRectangle extends Rect {
 
   private calculateBoundingBox(nodes: Layout[]) {
     if (nodes.length === 0) {
-      return new RectType();
+      return new BBox();
     }
 
     const bottomLefts = nodes.map(node =>
@@ -132,7 +132,7 @@ export class SurroundingRectangle extends Rect {
       .add(new Vector2(this.lineWidth()))
       .mul(parentScale);
 
-    return new RectType(
+    return new BBox(
       map(minX, maxX, 0.5) - (maxX - minX) / 2 - scaledBuffer.x / 2,
       map(minY, maxY, 0.5),
 

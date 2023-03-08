@@ -39,3 +39,5 @@ yarn add --dev @ksassnowski/motion-canvas-components
   render a rectangle around a list of provided nodes. Automatically calculates
   its required size based on the provided nodes. Can be animated to move between
   different nodes.
+- [`Physics Engine`](/src/components/physics) – A basic 2D physics engine for
+  Motion Canvas. Because why the hell not?

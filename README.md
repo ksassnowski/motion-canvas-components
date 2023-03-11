@@ -41,3 +41,5 @@ yarn add --dev @ksassnowski/motion-canvas-components
   different nodes.
 - [`Physics Engine`](/src/components/physics) – A basic 2D physics engine for
   Motion Canvas. Because why the hell not?
+- [`Brace`](/src/components/brace) – A component to draw a brace next to list of
+  components.

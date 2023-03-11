@@ -89,39 +89,50 @@ export interface BraceProps extends ShapeProps {
 ## Example
 
 ```tsx
-import {makeScene2D} from '@motion-canvas/2d';
-import {Circle, CircleProps} from '@motion-canvas/2d/lib/components';
-import {all, waitFor} from '@motion-canvas/core/lib/flow';
+import { Brace } from "@ksassnowski/motion-canvas-components";
+
+import { makeScene2D } from "@motion-canvas/2d";
+import {
+  Circle,
+  CircleProps,
+  Txt,
+  TxtProps,
+} from "@motion-canvas/2d/lib/components";
+import { all, waitFor } from "@motion-canvas/core/lib/flow";
 import {
   Direction,
   PossibleColor,
   PossibleVector2,
-} from '@motion-canvas/core/lib/types';
-import {createRef, makeRef} from '@motion-canvas/core/lib/utils';
-
-import {Brace} from '@ksassnowski/motion-canvas-components';
+} from "@motion-canvas/core/lib/types";
+import { createRef, makeRef } from "@motion-canvas/core/lib/utils";
 
 const circleStyles: CircleProps = {
   size: 120,
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: "center",
+  alignItems: "center",
 };
 
 export default makeScene2D(function* (view) {
   const brace = createRef<Brace>();
   const circles: Circle[] = [];
 
-  const circleProps: {fill: PossibleColor; position: PossibleVector2}[] = [
-    {fill: 'slategray', position: [-200, -200]},
-    {fill: 'maroon', position: [200, 100]},
-    {fill: 'lightseagreen', position: [-75, -0]},
+  const textProps: TxtProps = {
+    fontSize: 48,
+    fontFamily: "monospace",
+    fill: "whitesmoke",
+  };
+
+  const circleProps: { fill: PossibleColor; position: PossibleVector2 }[] = [
+    { fill: "slategray", position: [-200, -200] },
+    { fill: "maroon", position: [200, 100] },
+    { fill: "lightseagreen", position: [-75, -0] },
   ];
 
   view.add(
     <>
       {circleProps.map((props, i) => (
         <Circle ref={makeRef(circles, i)} {...props} {...circleStyles}>
-          <Text text={i.toString()} {...textStyles} />
+          <Txt text={i.toString()} {...textProps} />
         </Circle>
       ))}
 
@@ -129,11 +140,12 @@ export default makeScene2D(function* (view) {
         ref={brace}
         nodes={circles[0]}
         edge={Direction.Right}
-        lineWidth={4}
-        stroke={'bisque'}
+        lineWidth={5}
+        stroke={"bisque"}
         start={0.5}
         end={0.5}
-        buffer={8}
+        sharpness={0.9}
+        buffer={12}
       />
     </>,
   );
@@ -141,10 +153,23 @@ export default makeScene2D(function* (view) {
   yield* all(brace().start(0, 1), brace().end(1, 1));
   yield* brace().nodes([circles[0], circles[1]], 1);
   yield* waitFor(0.5);
-  yield* brace().sharpness(2, 1).to(0.5, 1).to(1, 1);
+  yield* brace().sharpness(2.5, 1).to(0.7, 1).to(1, 1);
+  yield* brace().inset(100, 1).to(0, 1);
+  yield* brace().buffer(100, 1).to(0, 1).to(12, 1);
+  yield* waitFor(0.5);
   yield* brace().nodes(circles[1], 1);
   yield* waitFor(0.5);
-  yield* brace().inset(10, 1).to(0, 1);
+  yield* all(brace().start(0.5, 0.8), brace().end(0.5, 0.8));
+  brace().edge(Direction.Bottom);
+  yield* waitFor(0.5);
+  yield* all(brace().start(0, 0.8), brace().end(1, 0.8));
+  yield* brace().nodes([circles[0], circles[2]], 1);
+  yield* waitFor(0.5);
+  yield* brace().nodes([circles[0], circles[1]], 1);
+  yield* waitFor(0.5);
+  yield* all(brace().start(0.5, 0.8), brace().end(0.5, 0.8));
   yield* waitFor(1);
 });
 ```
+
+https://user-images.githubusercontent.com/5139098/224476993-4a5bcf0c-b007-4024-b169-612813fa781b.mp4

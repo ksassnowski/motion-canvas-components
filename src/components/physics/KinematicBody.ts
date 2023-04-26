@@ -1,7 +1,7 @@
-import { computed } from "@motion-canvas/2d/lib/decorators";
-import { Vector2 } from "@motion-canvas/core/lib/types";
+import {computed} from '@motion-canvas/2d/lib/decorators';
+import {Vector2} from '@motion-canvas/core/lib/types';
 
-import { PhysicsBody, PhysicsBodyProps } from "./PhysicsBody";
+import {PhysicsBody, PhysicsBodyProps} from './PhysicsBody';
 
 export interface KinematicBodyProps extends PhysicsBodyProps {}
 
@@ -26,7 +26,8 @@ export class KinematicBody extends PhysicsBody {
 
   @computed()
   public isAtRest(): boolean {
-    return this.squaredLinearVelocity() < 300 && this.angularVelocity() < 0.01;
+    // return this.squaredLinearVelocity() < 300 && this.angularVelocity() < 0.01;
+    return false;
   }
 
   public constructor(props: KinematicBodyProps) {

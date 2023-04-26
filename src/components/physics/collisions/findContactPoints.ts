@@ -39,7 +39,7 @@ function findCirclePolygonContactPoint(
   circle: Circle,
   polygon: Polygon,
 ): Vector2 {
-  let point: Vector2 = Vector2.zero;
+  let point: Vector2;
   let closestDistanceSquared = Infinity;
 
   for (let i = 0; i < polygon.vertices.length; i++) {
@@ -58,7 +58,7 @@ function findCirclePolygonContactPoint(
     }
   }
 
-  return point;
+  return point!;
 }
 
 function findPolygonsContactPoints(

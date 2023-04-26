@@ -3,8 +3,8 @@ import {computed, initial, signal} from '@motion-canvas/2d/lib/decorators';
 import {SignalValue, SimpleSignal} from '@motion-canvas/core/lib/signals';
 import {BBox} from '@motion-canvas/core/lib/types';
 
+import {Polygon} from '../physics/collisions';
 import {NodeCollider} from './NodeCollider';
-import {Polygon} from './collisions';
 
 export interface CacheRectColliderProps extends ShapeProps {
   expand?: SignalValue<number>;
@@ -27,22 +27,31 @@ export class CacheRectCollider extends NodeCollider {
     }
 
     let rect = body.cacheBBox().expand(this.expand());
-    if (body.lineWidth() > 0) {
-      // I think this should technically be lineWidth / 2 but that doesn't seem
-      // to work properly.
-      rect = rect.expand(-body.lineWidth());
-    }
 
     return {
       type: 'polygon',
       vertices: rect.transformCorners(this.localToWorld()),
-      center: body.cacheBBox().center.transformAsPoint(this.localToWorld()),
-      aabb: this.aabb(),
+      center: rect.center.transformAsPoint(this.localToWorld()),
+      aabb: BBox.fromPoints(...rect.transformCorners(this.localToWorld())),
     };
   }
 
   @computed()
-  protected aabb(): BBox {
-    return this.children().at(0)!.cacheBBox().transform(this.localToWorld());
+  public override localToWorld(): DOMMatrix {
+    const parent = this.parent();
+    return parent
+      ? parent.localToWorld().multiply(this.localToParent())
+      : this.localToParent();
+  }
+
+  public override localToParent(): DOMMatrix {
+    const matrix = new DOMMatrix();
+    const offset = this.size().mul(this.offset()).scale(-0.5);
+    matrix.translateSelf(this.position.x(), this.position.y());
+    matrix.rotateSelf(0, 0, this.rotation());
+    matrix.scaleSelf(this.scale.x(), this.scale.y());
+    matrix.translateSelf(offset.x, offset.y);
+
+    return matrix;
   }
 }

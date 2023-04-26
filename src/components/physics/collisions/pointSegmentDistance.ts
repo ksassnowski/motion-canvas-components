@@ -1,4 +1,4 @@
-import {Vector2} from '@motion-canvas/core/lib/types';
+import { Vector2 } from "@motion-canvas/core/lib/types";
 
 export interface PointSegmentDistance {
   closestPoint: Vector2;
@@ -30,5 +30,5 @@ export function pointSegmentDistance(
   const distanceSquared =
     contactPointP.x * contactPointP.x + contactPointP.y * contactPointP.y;
 
-  return {closestPoint, distanceSquared};
+  return { closestPoint, distanceSquared };
 }

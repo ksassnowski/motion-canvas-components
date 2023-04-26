@@ -1,11 +1,12 @@
-import {Node, Shape, ShapeProps} from '@motion-canvas/2d/lib/components';
-import {computed, initial, signal} from '@motion-canvas/2d/lib/decorators';
-import {SignalValue, SimpleSignal} from '@motion-canvas/core/lib/signals';
-import {BBox, Vector2} from '@motion-canvas/core/lib/types';
-import {useLogger} from '@motion-canvas/core/lib/utils';
+import { Node, Shape, ShapeProps } from "@motion-canvas/2d/lib/components";
+import { computed, initial, signal } from "@motion-canvas/2d/lib/decorators";
+import { SignalValue, SimpleSignal } from "@motion-canvas/core/lib/signals";
+import { BBox, Vector2 } from "@motion-canvas/core/lib/types";
+import { useLogger } from "@motion-canvas/core/lib/utils";
 
-import {NodeCollider} from './NodeCollider';
-import {Circle} from './collisions';
+import { AxisAlignedBoundingBox, Circle } from "../physics/collisions";
+import { NodeCollider } from "./NodeCollider";
+import { PhysicsBody } from "./PhysicsBody";
 
 export interface CircleColliderProps extends ShapeProps {
   radius?: SignalValue<number>;
@@ -28,7 +29,7 @@ export class CircleCollider extends NodeCollider {
 
       if (!(body instanceof Shape)) {
         useLogger().warn(
-          'Cannot infer collision circle radius as child node does not extend Shape.',
+          "Cannot infer collision circle radius as child node does not extend Shape.",
         );
         radius = 0;
       } else {
@@ -39,7 +40,7 @@ export class CircleCollider extends NodeCollider {
     }
 
     return {
-      type: 'circle',
+      type: "circle",
       center: this.position().transformAsPoint(this.localToWorld()),
       radius: radius,
       aabb: this.aabb(),
@@ -58,6 +59,6 @@ export class CircleCollider extends NodeCollider {
     const subRadius = absolutePosition.sub(radius);
     const plusRadius = absolutePosition.add(radius);
 
-    return new BBox(subRadius.x, plusRadius.x, subRadius.y, plusRadius.y);
+    return BBox.fromPoints(subRadius, plusRadius);
   }
 }

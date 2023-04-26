@@ -1,14 +1,15 @@
-import {ShapeProps} from '@motion-canvas/2d/lib/components';
-import {computed, initial, signal} from '@motion-canvas/2d/lib/decorators';
+import { ShapeProps } from "@motion-canvas/2d/lib/components";
+import { computed, initial, signal } from "@motion-canvas/2d/lib/decorators";
 import {
   SignalValue,
   SimpleSignal,
   isReactive,
-} from '@motion-canvas/core/lib/signals';
-import {BBox, PossibleVector2, Vector2} from '@motion-canvas/core/lib/types';
+} from "@motion-canvas/core/lib/signals";
+import { BBox, PossibleVector2, Vector2 } from "@motion-canvas/core/lib/types";
+import { debug } from "@motion-canvas/core/lib/utils";
 
-import {NodeCollider} from './NodeCollider';
-import {Polygon} from './collisions';
+import { AxisAlignedBoundingBox, Polygon } from "../physics/collisions";
+import { NodeCollider } from "./NodeCollider";
 
 export interface PolygonColliderProps extends ShapeProps {
   vertices: SignalValue<PossibleVector2[]>;
@@ -26,24 +27,19 @@ export class PolygonCollider extends NodeCollider {
   @computed()
   public shape(): Polygon {
     return {
-      type: 'polygon',
+      type: "polygon",
       vertices: this.parsedVertices(),
       center: this.absolutePosition(),
-      aabb: this.aabb(),
+      aabb: BBox.fromPoints(...this.parsedVertices()),
     };
   }
 
   @computed()
   protected parsedVertices() {
-    return this.vertices().map(vertex =>
+    return this.vertices().map((vertex) =>
       new Vector2(isReactive(vertex) ? vertex() : vertex).transformAsPoint(
         this.localToWorld(),
       ),
     );
-  }
-
-  @computed()
-  protected aabb(): BBox {
-    return BBox.fromPoints(...this.parsedVertices());
   }
 }

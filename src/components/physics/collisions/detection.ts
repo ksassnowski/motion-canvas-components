@@ -2,7 +2,7 @@ import {Vector2} from '@motion-canvas/core/lib/types';
 
 import {Circle, Collider, Polygon} from './colliders';
 
-export type IntersectionResult = CollisionData | undefined;
+export type IntersectionResult = CollisionData | null;
 
 export interface CollisionData {
   normal: Vector2;
@@ -30,6 +30,8 @@ export function intersect(
       return intersectCirclePolygon(colliderB, colliderA, true);
     }
   }
+
+  throw new Error('Unsupported collision');
 }
 
 export function intersectCircles(
@@ -41,7 +43,7 @@ export function intersectCircles(
   const radii = circleA.radius + circleB.radius;
 
   if (distance >= radii) {
-    return;
+    return null;
   }
 
   return {
@@ -72,7 +74,7 @@ export function intersectPolygons(
       const [minB, maxB] = projectVertices(b.vertices, axis);
 
       if (minA >= maxB || minB >= maxA) {
-        return;
+        return null;
       }
 
       const axisDepth = Math.min(maxB - minA, maxA - minB);
@@ -110,7 +112,7 @@ export function intersectCirclePolygon(
     const [minB, maxB] = projectCircle(circle, axis);
 
     if (minA >= maxB || minB >= maxA) {
-      return;
+      return null;
     }
 
     const axisDepth = Math.min(maxB - minA, maxA - minB);
@@ -127,7 +129,7 @@ export function intersectCirclePolygon(
   const [minB, maxB] = projectCircle(circle, axis);
 
   if (minA >= maxB || minB >= maxA) {
-    return;
+    return null;
   }
 
   const axisDepth = Math.min(maxB - minA, maxA - minB);
@@ -182,7 +184,7 @@ function projectCircle(circle: Circle, axis: Vector2): [number, number] {
 }
 
 function closestPointOnPolygon(center: Vector2, polygon: Polygon) {
-  let result: Vector2 = Vector2.zero;
+  let result: Vector2;
   let minDistance = Infinity;
 
   for (const vertex of polygon.vertices) {
@@ -193,5 +195,5 @@ function closestPointOnPolygon(center: Vector2, polygon: Polygon) {
     }
   }
 
-  return result;
+  return result!;
 }
